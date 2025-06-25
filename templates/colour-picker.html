@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'colour_styles.css') }}">
+    <title>Colour Picker</title>
+</head>
+<body>
+    <header>
+        <h1 class="colour-change">Colour Picker</h1>
+    </header>
+    <main>
+        <label for="favourite-colour" class="colour-change">Select your favourite colour: </label>
+        <input type="color" id="favourite-colour" value="#ff0000"/> 
+        <p class="colour-change">And watch the text on this page change to that colour!</p>
+    </main>
+    <footer>
+        <a class="btn" id="homepage-btn" href="./index.html">Back to Homepage</a>
+    </footer>
+</body>
+<script src="./myscripts.js"></script>
+</html>
