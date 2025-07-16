@@ -11,6 +11,7 @@ def test_colour_picker_route(client):
     response = client.get("/colour-picker")
     assert response.status_code == 200
     assert b"Colour Picker" in response.data
+    
 
 def test_non_existent_route(client):
     response = client.get('/non-existent')
