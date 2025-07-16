@@ -1,4 +1,4 @@
-name: CI/CD for Flask Dev App
+name: CI/CD for Flask App
 
 on:
   push:
@@ -7,7 +7,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -39,15 +38,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # ✅ Deploy only necessary files
       - name: Deploy to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.AWS_SSH_KEY }}
-          source: "."
-          target: "/home/${{ secrets.EC2_USER }}/flask_app"
+          source: "./"
+          target: "/home/${{ secrets.EC2_USER }}/flask-app"
+          rm: true      # clean old files before copy
+          overwrite: true
 
+      # ✅ Restart Flask properly
       - name: Restart Flask on EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -55,11 +58,22 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.AWS_SSH_KEY }}
           script: |
-            pkill -f "flask run" || true
-            cd flask_app
-            source venv/bin/activate || python3 -m venv venv && source venv/bin/activate
+            cd flask-app
+            # Set up virtual environment
+            if [ ! -d "venv" ]; then
+              python3 -m venv venv
+            fi
+            source venv/bin/activate
+            pip install --upgrade pip
             pip install -r requirements.txt
+            
+            # Kill existing Flask app (if any)
+            pkill -f "flask run" || true
+            
+            # Start Flask in background with logging
             export FLASK_APP=app.py
-            nohup flask run --host=0.0.0.0 --port=5000 &
+            nohup flask run --host=0.0.0.0 --port=5000 > flask.log 2>&1 &
+
+
 
 
