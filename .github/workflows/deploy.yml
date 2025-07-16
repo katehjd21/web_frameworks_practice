@@ -44,6 +44,7 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.AWS_SSH_KEY }}
           source: "."
           target: "/home/${{ secrets.EC2_USER }}/flask_app"
 
@@ -52,6 +53,7 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.AWS_SSH_KEY }}
           script: |
             pkill -f "flask run" || true
             cd flask_app
