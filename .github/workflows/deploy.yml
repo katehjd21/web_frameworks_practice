@@ -2,7 +2,7 @@ name: CI/CD for Flask Dev App
 
 on:
   push:
-    branches: [ "main" ]  # Trigger on pushes to main
+    branches: [ "main" ] 
 
 jobs:
   test:
@@ -15,7 +15,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11"  # Adjust to your Python version
+          python-version: "3.12" 
 
       - name: Install dependencies
         run: |
