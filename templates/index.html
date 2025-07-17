@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'styles.css') }}">
+    <title>Kate Drew</title>
+</head>
+<body class="grid-container">
+    
+        <header class="top-left">
+                 <h1>Kate Drew</h1>
+                 <p>"Believe you can and you're halfway there."</p>
+            <i>Theodore Roosevelt</i>
+        </header>
+        <div>
+            <img class="transition" src="{{ url_for('static', filename='Portrait_Picture.png' ) }}" alt="portrait picture of myself">
+        </div>
+        <div id="colour-picker-wrapper">
+            <a  href="/colour-picker" id="colour-picker-link">Colour Picker</a>
+        </div>
+ 
+</body>
+<script src="./myscripts.js"></script>
+</html>
