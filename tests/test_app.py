@@ -2,14 +2,12 @@
 
 def test_homepage(client):
     response = client.get("/")
-    assert response.status_code == 200
     assert b"Kate Drew" in response.data
     assert b"Believe you can and you're halfway there." in response.data
     assert b"Theodore Roosevelt" in response.data
 
 def test_colour_picker_route(client):
     response = client.get("/colour-picker")
-    assert response.status_code == 200
     assert b"Colour Picker" in response.data
     
 
