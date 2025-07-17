@@ -29,49 +29,5 @@ jobs:
           source venv/bin/activate
           pytest
 
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-     
-      - name: Deploy to EC2
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.AWS_SSH_KEY }}
-          source: "./"
-          target: "/home/${{ secrets.EC2_USER }}/flask-app"
-          rm: true      # clean old files before copy
-          overwrite: true
-
- 
-      - name: Restart Flask on EC2
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.AWS_SSH_KEY }}
-          script: |
-            cd flask_app
-            if [ ! -d "venv" ]; then
-              python3 -m venv venv
-            fi
-            source venv/bin/activate
-            pip install --upgrade pip
-            pip install -r requirements.txt
-            
-            # Kill any old Flask process
-            pkill -f "flask run" || true
-            
-            # Start Flask properly
-            export FLASK_APP=app.py
-            nohup flask run --host=0.0.0.0 --port=5000 > flask.log 2>&1 &
-            disown
-
+  
 
