@@ -50,4 +50,3 @@ jobs:
             docker run -d --name kated2103/flask-app -p 5000:5000 kated2103/flask-app:latest
 
   
-
