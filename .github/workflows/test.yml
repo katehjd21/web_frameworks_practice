@@ -44,9 +44,9 @@ jobs:
             cd ~/web_frameworks_practice || git clone https://github.com/katehjd21/web_frameworks_practice.git
             cd ~/web_frameworks_practice
             git pull origin main
-            docker build -t kated2103/flask-app:latest .
-            docker stop kated2103/flask-app || true
-            docker rm kated2103/flask-app || true
-            docker run -d --name kated2103/flask-app -p 5000:5000 kated2103/flask-app:latest
+            docker build -t flask-app:latest .
+            docker stop flask-app || true
+            docker rm flask-app || true
+            docker run -d --name flask-app -p 5000:5000 flask-app:latest
 
   
