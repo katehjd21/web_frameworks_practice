@@ -28,6 +28,26 @@ jobs:
         run: |
           source venv/bin/activate
           pytest
+      
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - name: Deploy to EC2 with SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY}}
+          script: |
+            cd ~/web_frameworks_practice || git clone https://github.com/katehjd21/web_frameworks_practice.git
+            cd ~/web_frameworks_practice
+            git pull origin main
+            docker build -t kated2103/flask-app:latest .
+            docker stop kated2103/flask-app || true
+            docker rm kated2103/flask-app || true
+            docker run -d --name kated2103/flask-app -p 5000:5000 kated2103/flask-app:latest
 
   
 
